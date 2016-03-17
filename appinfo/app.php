@@ -18,10 +18,5 @@
  *                                                                                                                                  
  */
 
-// Load our fileactions script
-//if (\OCP\User::isLoggedIn()) {
-//    \OCP\Util::addScript('files_zenodo', 'fileactions');
-//}
-
-// OCP\App::registerPersonal('files_zenodo', 'settings');
+OCP\App::registerPersonal('user_orcid', 'settings');
 
