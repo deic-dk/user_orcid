@@ -16,7 +16,7 @@
     <requiremin>7</requiremin>
     <category>authentication</category>
     <types>
-        <filesystem/>
+        <authentication/>
     </types>
 </info>
 
