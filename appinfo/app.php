@@ -18,5 +18,9 @@
  *                                                                                                                                  
  */
 
-OCP\App::registerPersonal('user_orcid', 'settings');
+namespace OCA\UserOrcid\AppInfo;
+
+use \OCP\AppFramework\App;
+
+\OCP\App::registerPersonal('user_orcid', 'settings');
 
