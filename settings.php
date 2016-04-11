@@ -19,7 +19,8 @@
  *
  */
 
-//OCP\Util::addScript('files_zenodo', 'settings');
+OCP\Util::addScript('user_orcid', 'settings');
+
 $tmpl = new OCP\Template( 'user_orcid', 'settings.tpl');
 return $tmpl->fetchPage();
 
