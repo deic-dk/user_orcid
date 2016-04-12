@@ -19,7 +19,22 @@
  *
  */
 
-use \OCP\AppFramework\App;
+// obtain current user's id
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+} else {
+    $user_id = OCP\USER::getUser();
+}
 
-\OCP\App::registerPersonal('user_orcid', 'settings');
+// get the ORCID via database query
+
+$sql    = "SELECT orcid FROM `*PREFIX*user_orcid_ids` WHERE `*PREFIX*user_orcid_ids`.`user_id` = '" . $user_id . "'";
+//TODO: needs to handle non-preexisting ids 
+$query  = \OCP\DB::prepare($sql);
+$output = $query->execute();
+
+$row    = $output->fetchRow();
+$result = $row['orcid'];
+
+OCP\JSON::success(array('orcid' => $result));
 

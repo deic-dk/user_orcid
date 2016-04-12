@@ -19,7 +19,16 @@
  *
  */
 
-use \OCP\AppFramework\App;
+// obtain current user's id
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+} else {
+    $user_id = OCP\USER::getUser();
+}
 
-\OCP\App::registerPersonal('user_orcid', 'settings');
+$orcid            = $_POST['orcid'];
+$sql    = "UPDATE `*PREFIX*user_orcid_ids` SET `orcid` ='" . $orcid . "' WHERE `*PREFIX*user_orcid_ids`.`user_id` ='" . $user_id . "'";
+$query  = \OCP\DB::prepare($sql);
+$result = $query->execute();
+return $result;
 
