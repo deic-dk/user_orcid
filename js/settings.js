@@ -1,3 +1,32 @@
+function generateCheckDigit(orcid_no_hyphens) { 
+    // Generates check digit as per ISO 7064 11,2 for 15 digit string
+    // http://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier
+    var total = 0; 
+    var zero = "0".charCodeAt(0);
+    for (var i = 0; i < 15; i++) { 
+        var digit = orcid_no_hyphens.charCodeAt(i)-zero; 
+        total = (total + digit) * 2; 
+    } 
+    var result = (12 - (total % 11)) % 11; 
+    return(result == 10 ? "X" : String(result)); 
+}
+
+function invalidORCID(orcid) {
+    // False if orcid has correct form (including hyphens) and valid checksum, else error string
+    var orcid_no_hyphens=orcid.replace(/^(\d{4})-(\d{4})-(\d{4})-(\d\d\d[\dX])$/,"$1$2$3$4");
+    if (orcid_no_hyphens==orcid) { // will not match if replace succeeded
+	alert("Invalid ORCID, bad form");
+	return true;
+    }
+    if (orcid_no_hyphens.charAt(15)!=generateCheckDigit(orcid_no_hyphens)) {
+	alert("Invalid ORCID, bad check digit");
+	return true;
+    }
+    return false;
+}
+
+
+
 
 // when we have loaded, get our ORCID from database and set it in the text field
 $(document).ready(function() {
@@ -5,7 +34,10 @@ $(document).ready(function() {
 	// catch clicks on our Save button
 	$('#idsubmit').click(function() {
 		orcid = document.getElementById('idtextfield').value;
-		//alert(orcid);
+
+if (!invalidORCID(orcid))
+
+{
 
 		$.ajax(OC.linkTo('user_orcid','ajax/set_orcid.php'), {
 		 	type:"POST",
@@ -14,9 +46,11 @@ $(document).ready(function() {
 		 	},
 		 	dataType:'json',
 		 	success: function(s){
-				// what to do upon success
+				// what to do more upon success?
 		 	}
 	});
+
+}
 	});
 
 
