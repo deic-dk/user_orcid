@@ -15,11 +15,13 @@ function invalidORCID(orcid) {
     // False if orcid has correct form (including hyphens) and valid checksum, else error string
     var orcid_no_hyphens=orcid.replace(/^(\d{4})-(\d{4})-(\d{4})-(\d\d\d[\dX])$/,"$1$2$3$4");
     if (orcid_no_hyphens==orcid) { // will not match if replace succeeded
-	alert("Invalid ORCID, bad form");
+	document.getElementById('orcidstatus').style.color = "red";
+	document.getElementById('orcidstatus').innerHTML = "Invalid ORCID, bad form";
 	return true;
     }
     if (orcid_no_hyphens.charAt(15)!=generateCheckDigit(orcid_no_hyphens)) {
-	alert("Invalid ORCID, bad check digit");
+	document.getElementById('orcidstatus').style.color = "red";
+	document.getElementById('orcidstatus').innerHTML = "Invalid ORCID, bad checksum";
 	return true;
     }
     return false;
@@ -38,7 +40,6 @@ $(document).ready(function() {
 if (!invalidORCID(orcid))
 
 {
-
 		$.ajax(OC.linkTo('user_orcid','ajax/set_orcid.php'), {
 		 	type:"POST",
 		  	data:{
@@ -46,7 +47,8 @@ if (!invalidORCID(orcid))
 		 	},
 		 	dataType:'json',
 		 	success: function(s){
-				// what to do more upon success?
+			document.getElementById('orcidstatus').style.color = "green";
+			document.getElementById('orcidstatus').innerHTML = "Validated and stored. <a href='https://orcid.org/"+orcid+"' target='_blank'> Go to web entry for this ORCID.";
 		 	}
 	});
 
