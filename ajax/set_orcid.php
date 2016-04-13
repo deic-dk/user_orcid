@@ -27,7 +27,7 @@ if (isset($_GET['user_id'])) {
 }
 
 $orcid            = $_POST['orcid'];
-$sql    = "UPDATE `*PREFIX*user_orcid_ids` SET `orcid` ='" . $orcid . "' WHERE `*PREFIX*user_orcid_ids`.`user_id` ='" . $user_id . "'";
+$sql    = "INSERT INTO `*PREFIX*user_orcid_ids` (`user_id`, `orcid`) VALUES ('" . $user_id . "', '" . $orcid . "') ON DUPLICATE KEY UPDATE user_id = VALUES(`user_id`), orcid = VALUES(`orcid`)";
 $query  = \OCP\DB::prepare($sql);
 $result = $query->execute();
 return $result;
