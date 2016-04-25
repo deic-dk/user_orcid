@@ -23,12 +23,12 @@
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 } else {
-    $user_id = OCP\USER::getUser();
+    $user_id = \OC::$server->getUserSession()->getUser()->getUID();
 }
 
 $orcid            = $_POST['orcid'];
-$sql    = "INSERT INTO `*PREFIX*user_orcid_ids` (`user_id`, `orcid`) VALUES ('" . $user_id . "', '" . $orcid . "') ON DUPLICATE KEY UPDATE user_id = VALUES(`user_id`), orcid = VALUES(`orcid`)";
-$query  = \OCP\DB::prepare($sql);
+$sql    = "INSERT INTO `*PREFIX*user_orcid` (`user_id`, `orcid`) VALUES ('" . $user_id . "', '" . $orcid . "') ON DUPLICATE KEY UPDATE user_id = VALUES(`user_id`), orcid = VALUES(`orcid`)";
+$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1.0 use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 $result = $query->execute();
 return $result;
 

@@ -23,18 +23,19 @@
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 } else {
-    $user_id = OCP\USER::getUser();
+
+    $user_id = \OC::$server->getUserSession()->getUser()->getUID();
 }
 
 // get the ORCID via database query
 
-$sql    = "SELECT orcid FROM `*PREFIX*user_orcid_ids` WHERE `*PREFIX*user_orcid_ids`.`user_id` = '" . $user_id . "'";
+$sql    = "SELECT orcid FROM `*PREFIX*user_orcid` WHERE `*PREFIX*user_orcid`.`user_id` = '" . $user_id . "'";
 //TODO: needs to handle non-preexisting ids 
-$query  = \OCP\DB::prepare($sql);
+$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1.0 use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 $output = $query->execute();
 
 $row    = $output->fetchRow();
 $result = $row['orcid'];
 
-OCP\JSON::success(array('orcid' => $result));
+OCP\JSON::success(array('orcid' => $result)); //FIXME: deprecated in 8.1: Use a AppFramework JSONResponse instead
 
