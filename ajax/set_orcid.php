@@ -26,6 +26,8 @@ if (isset($_GET['user_id'])) {
     $user_id = \OC::$server->getUserSession()->getUser()->getUID();
 }
 
+// set the ORCID via database query
+
 $orcid            = $_POST['orcid'];
 $sql    = "INSERT INTO `*PREFIX*user_orcid` (`user_id`, `orcid`) VALUES ('" . $user_id . "', '" . $orcid . "') ON DUPLICATE KEY UPDATE user_id = VALUES(`user_id`), orcid = VALUES(`orcid`)";
 $query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1.0 use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()

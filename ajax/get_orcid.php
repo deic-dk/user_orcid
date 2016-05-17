@@ -23,15 +23,14 @@
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 } else {
-
     $user_id = \OC::$server->getUserSession()->getUser()->getUID();
 }
 
 // get the ORCID via database query
 
 $sql    = "SELECT orcid FROM `*PREFIX*user_orcid` WHERE `*PREFIX*user_orcid`.`user_id` = '" . $user_id . "'";
-//TODO: needs to handle non-preexisting ids 
-$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1.0 use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
+
+$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1: use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
 $output = $query->execute();
 
 $row    = $output->fetchRow();

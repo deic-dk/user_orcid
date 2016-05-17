@@ -20,6 +20,11 @@
       <notnull>true</notnull>
       <length>64</length>
     </field>
+    <field>
+      <name>validated</name>
+      <type>boolean</type>
+      <default>false</default>
+    </field>
   </declaration>
  </table>
 </database>
