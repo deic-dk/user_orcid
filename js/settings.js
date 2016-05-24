@@ -31,7 +31,7 @@ function invalidORCID(orcid) {
 // when we have loaded, get our ORCID from database and set it in the text field
 $(document).ready(function() {
 
-    // catch clicks on our Save button
+    // catch clicks on our Confirm button
     $('#idsubmit').click(function() {
         orcid = document.getElementById('idtextfield').value;
 
@@ -46,7 +46,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function(s) {
                     document.getElementById('orcidstatus').style.color = "green";
-                    document.getElementById('orcidstatus').innerHTML = "Validated and stored. <a href='https://orcid.org/" + orcid + "' target='_blank'> Go to web entry for this ORCID.";
+                    document.getElementById('orcidstatus').innerHTML = "Validated and stored. <a href='https://orcid.org/" + orcid + "' target='_blank'> Go to web entry for this ORCID.</a>";
                 }
             });
 
@@ -58,7 +58,12 @@ $(document).ready(function() {
         type: "POST",
         dataType: 'json',
         success: function(s) {
-            document.getElementById('idtextfield').value = s['orcid'];
+            orcid = s['orcid'];
+            document.getElementById('idtextfield').value = orcid;
+            if (orcid != null) {
+                document.getElementById('orcidstatus').style.color = "green";
+                document.getElementById('orcidstatus').innerHTML = "<a href='https://orcid.org/" + s['orcid'] + "' target='_blank'> Go to web entry for this ORCID.</a>";
+            }
         }
     });
 
