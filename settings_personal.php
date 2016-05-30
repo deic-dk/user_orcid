@@ -19,8 +19,8 @@
  *
  */
 
-OCP\Util::addScript('user_orcid', 'settings');
+OCP\Util::addScript('user_orcid', 'settings_personal');
 
-$tmpl = new OCP\Template( 'user_orcid', 'settings.tpl');
+$tmpl = new OCP\Template( 'user_orcid', 'settings_personal.tpl');
 return $tmpl->fetchPage();
 

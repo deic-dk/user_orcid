@@ -1,6 +1,6 @@
 <?php
 /*
- * user_orcid, authentication with ORCID
+ * user_orcid 
  *
  * Written 2016 by Lars N\xc3\xa6sbye Christensen, DeIC
  *
@@ -19,7 +19,8 @@
  *
  */
 
-use \OCP\AppFramework\App;
+OCP\Util::addScript('user_orcid', 'settings_admin');
 
-\OCP\App::registerPersonal('user_orcid', 'settings_personal');
-\OCP\App::registerAdmin('user_orcid', 'settings_admin');
+$tmpl = new OCP\Template( 'user_orcid', 'settings_admin.tpl');
+return $tmpl->fetchPage();
+
