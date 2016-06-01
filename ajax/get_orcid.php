@@ -30,7 +30,7 @@ if (isset($_GET['user_id'])) {
 
 $sql    = "SELECT orcid FROM `*PREFIX*user_orcid` WHERE `*PREFIX*user_orcid`.`user_id` = '" . $user_id . "'";
 
-$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated since 8.1: use prepare() of \OCP\IDBConnection - \OC::$server->getDatabaseConnection()
+$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated. We should use app settings instead.
 $output = $query->execute();
 
 $row    = $output->fetchRow();
