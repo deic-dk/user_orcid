@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     // if stored, get our ORCID from database and put it in the text field
     $.ajax(OC.linkTo('user_orcid', 'ajax/get_orcid.php'), {
-        type: "POST",
+        type: "GET",
         dataType: 'json',
         success: function(s) {
             orcid = s['orcid'];
@@ -20,9 +20,10 @@ $(document).ready(function() {
         // build the login URL and open it in a new window
         authURLprefix = "https://sandbox.orcid.org/oauth/authorize";
         exchURLprefix = "https://pub.sandbox.orcid.org/oauth/token";
-        useURLprefix  = "http://pub.sandbox.orcid.org/v1.2";
-        clientID      = "APP-NPXKK6HFN6TJ4YYI" // get this from settings!
-        redirectURL   = "https://developers.google.com/oauthplayground"; // which should we do instead?
+        useURLprefix = "http://pub.sandbox.orcid.org/v1.2";
+        clientID = "APP-NPXKK6HFN6TJ4YYI" // NB: get this from settings!
+        clientSecret = ""; // NB: get this from settings!
+        redirectURL = "https://developers.google.com/oauthplayground"; // which should we use instead?
 
         authURL = authURLprefix + "?client_id=" + clientID + "&response_type=code&scope=/authenticate&redirect_uri=" + redirectURL;
 

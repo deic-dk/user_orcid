@@ -1,13 +1,35 @@
 
 $(document).ready(function() {
-// catch clicks on our 'Store OaAuth' values button
 
+// if stored, get our ORCID from database and put it in the text field
+    $.ajax(OC.linkTo('user_orcid', 'ajax/get_client.php'), {
+        type: "GET",
+        dataType: 'json',
+        success: function(s) {
+            clientAppID = s['clientAppID'];
+            clientSecret = s['clientSecret'];	    
+            document.getElementById('inputclientappid').value = clientAppID;
+            document.getElementById('inputclientsecret').value = clientSecret;          }
+    });
+
+// catch clicks on our 'Store OAuth' values button
    $('#clientsubmit').click(function() {
-
+	// get the values from textfield and throw them into app settings
         inputclientappid = document.getElementById('inputclientappid').value;
         inputclientsecret = document.getElementById('inputclientsecret').value;
-	alert(inputclientappid);
-	alert(inputclientsecret);
+
+        $.ajax(OC.linkTo('user_orcid', 'ajax/set_client.php'), {
+            type: "POST",
+            data: {
+                clientAppID: inputclientappid,
+                clientSecret: inputclientsecret
+            },
+            dataType: 'json',
+            success: function(s) {
+		alert("Success!");
+            }
+        });
+
     });
 
 });

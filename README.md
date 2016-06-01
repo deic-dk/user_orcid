@@ -1,5 +1,5 @@
 # user_orcid
-ORCID authentication
+ORCID authentication and retrieval
 
 Written 2016 by Lars Næsbye Christensen, DeIC
 
@@ -20,7 +20,9 @@ Not fully functional as of yet.
 
 ### How it works (when we've got it done)
 
- - When the user clicks the 'Confirm ORCID' button, they are taken to orcid.org for authentication.
- - After successful login, the orcid.org service sends data via a supplied callback mechanism to a location back on owncloud.
+ - When the user clicks the 'Confirm ORCID' button, they are taken to orcid.org (in a new window) for authentication.
+ - After successful login and authentication, orcid.org service sends data back to owncloud via access token.
+ - The token is used to obtain ORCID and associated name from the service.
  - The user's ORCID is then stored in the owncloud database for access by other apps, and displayed next to the button.
+
 

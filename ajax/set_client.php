@@ -19,18 +19,13 @@
  *
  */
 
-// obtain current user's id
-if (isset($_GET['user_id'])) {
-    $user_id = $_GET['user_id'];
-} else {
-    $user_id = \OC::$server->getUserSession()->getUser()->getUID();
-}
+// set the client ID and secret via app settings
 
-// set the ORCID via database query
+$clientAppID            = $_POST['clientAppID'];
+$clientSecret           = $_POST['clientSecret'];
 
-$orcid            = $_POST['orcid'];
-$sql    = "INSERT INTO `*PREFIX*user_orcid` (`user_id`, `orcid`) VALUES ('" . $user_id . "', '" . $orcid . "') ON DUPLICATE KEY UPDATE user_id = VALUES(`user_id`), orcid = VALUES(`orcid`)";
-$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated. https://doc.owncloud.org/server/7.0/developer_manual/app/configuration.html#user-values
-$result = $query->execute();
-return $result;
+OC_Appconfig::setValue('user_orcid', 'clientAppID', $clientAppID);
+OC_Appconfig::setValue('user_orcid', 'clientSecret', $clientSecret);
+
+OCP\JSON::success();
 

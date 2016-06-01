@@ -19,5 +19,9 @@
  *
  */
 
-// this should contain the callback routine that OAuth gets from us.
+// get the client ID and secret via app settings
+
+$clientAppID = OC_Appconfig::getValue('user_orcid', 'clientAppID');
+$clientSecret = OC_Appconfig::getValue('user_orcid', 'clientSecret');
+OCP\JSON::success(array('clientAppID' => $clientAppID, 'clientSecret' => $clientSecret));
 
