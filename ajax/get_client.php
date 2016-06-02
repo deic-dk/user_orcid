@@ -23,5 +23,6 @@
 
 $clientAppID = OC_Appconfig::getValue('user_orcid', 'clientAppID');
 $clientSecret = OC_Appconfig::getValue('user_orcid', 'clientSecret');
+
 OCP\JSON::success(array('clientAppID' => $clientAppID, 'clientSecret' => $clientSecret));
 

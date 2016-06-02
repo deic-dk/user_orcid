@@ -19,22 +19,8 @@
  *
  */
 
-// obtain current user's id
-if (isset($_GET['user_id'])) {
-    $user_id = $_GET['user_id'];
-} else {
-    $user_id = \OC::$server->getUserSession()->getUser()->getUID();
-}
+$orcid = \OCP\CONFIG::getUserValue( \OC::$server->getUserSession()->getUser()->getUID() , 'user_orcid' , 'orcid');
 
-// get the ORCID via database query
+OCP\JSON::success(array('orcid' => $orcid));
 
-$sql    = "SELECT orcid FROM `*PREFIX*user_orcid` WHERE `*PREFIX*user_orcid`.`user_id` = '" . $user_id . "'";
-
-$query  = \OCP\DB::prepare($sql); //FIXME: Deprecated. We should use app settings instead.
-$output = $query->execute();
-
-$row    = $output->fetchRow();
-$result = $row['orcid'];
-
-OCP\JSON::success(array('orcid' => $result)); //FIXME: deprecated in 8.1: Use a AppFramework JSONResponse instead
 

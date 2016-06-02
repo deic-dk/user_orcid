@@ -26,7 +26,8 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(s) {
-		alert("Success!");
+                document.getElementById('clientstatus').style.color = "green";
+                document.getElementById('clientstatus').innerHTML = "Stored.";
             }
         });
 
