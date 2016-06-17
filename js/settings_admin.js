@@ -1,37 +1,36 @@
-
 $(document).ready(function() {
 
-// if stored, get our ORCID from database and put it in the text field
-    $.ajax(OC.linkTo('user_orcid', 'ajax/get_client.php'), {
-        type: "GET",
-        dataType: 'json',
-        success: function(s) {
-            clientAppID = s['clientAppID'];
-            clientSecret = s['clientSecret'];	    
-            document.getElementById('inputclientappid').value = clientAppID;
-            document.getElementById('inputclientsecret').value = clientSecret;          }
-    });
+	// if stored, get our ORCID from database and put it in the text field
+	$.ajax(OC.linkTo('user_orcid', 'ajax/get_client.php'), {
+		type: "GET",
+		dataType: 'json',
+		success: function(s) {
+			clientAppID = s['clientAppID'];
+			clientSecret = s['clientSecret'];
+			document.getElementById('inputclientappid').value = clientAppID;
+			document.getElementById('inputclientsecret').value = clientSecret;
+		}
+	});
 
-// catch clicks on our 'Store OAuth' values button
-   $('#clientsubmit').click(function() {
-	// get the values from textfield and throw them into app settings
-        inputclientappid = document.getElementById('inputclientappid').value;
-        inputclientsecret = document.getElementById('inputclientsecret').value;
+	// catch clicks on our 'Store OAuth' values button
+	$('#clientsubmit').click(function() {
+		// get the values from textfield and throw them into app settings
+		inputclientappid = document.getElementById('inputclientappid').value;
+		inputclientsecret = document.getElementById('inputclientsecret').value;
 
-        $.ajax(OC.linkTo('user_orcid', 'ajax/set_client.php'), {
-            type: "POST",
-            data: {
-                clientAppID: inputclientappid,
-                clientSecret: inputclientsecret
-            },
-            dataType: 'json',
-            success: function(s) {
-                document.getElementById('clientstatus').style.color = "green";
-                document.getElementById('clientstatus').innerHTML = "Stored.";
-            }
-        });
+		$.ajax(OC.linkTo('user_orcid', 'ajax/set_client.php'), {
+			type: "POST",
+			data: {
+				clientAppID: inputclientappid,
+				clientSecret: inputclientsecret
+			},
+			dataType: 'json',
+			success: function(s) {
+				document.getElementById('clientstatus').style.color = "green";
+				document.getElementById('clientstatus').innerHTML = "Stored.";
+			}
+		});
 
-    });
+	});
 
 });
-

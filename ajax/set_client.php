@@ -21,11 +21,10 @@
 
 // set the client ID and secret via app settings
 
-$clientAppID            = $_POST['clientAppID'];
-$clientSecret           = $_POST['clientSecret'];
+$clientAppID  = $_POST['clientAppID'];
+$clientSecret = $_POST['clientSecret'];
 
 OC_Appconfig::setValue('user_orcid', 'clientAppID', $clientAppID);
 OC_Appconfig::setValue('user_orcid', 'clientSecret', $clientSecret);
 
 OCP\JSON::success();
-

@@ -21,6 +21,5 @@
 
 OCP\Util::addScript('user_orcid', 'settings_admin');
 
-$tmpl = new OCP\Template( 'user_orcid', 'settings_admin.tpl');
+$tmpl = new OCP\Template('user_orcid', 'settings_admin.tpl');
 return $tmpl->fetchPage();
-

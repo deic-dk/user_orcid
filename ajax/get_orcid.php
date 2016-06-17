@@ -19,8 +19,8 @@
  *
  */
 
-$orcid = \OCP\CONFIG::getUserValue( \OC::$server->getUserSession()->getUser()->getUID() , 'user_orcid' , 'orcid');
+$orcid = \OCP\Config::getUserValue(\OC::$server->getUserSession()->getUser()->getUID(), 'user_orcid', 'orcid');
 
-OCP\JSON::success(array('orcid' => $orcid));
-
-
+OCP\JSON::success(array(
+                'orcid' => $orcid
+));

@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*
  * user_orcid, authentication with ORCID
  *
@@ -22,4 +22,4 @@
 use \OCP\AppFramework\App;
 
 \OCP\App::registerPersonal('user_orcid', 'settings_personal');
-\OCP\App::registerAdmin('user_orcid', 'settings_admin');
+\OCP\App::registerAdmin('user_orcid', 'settings_admin'); 

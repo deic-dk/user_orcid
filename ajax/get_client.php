@@ -19,10 +19,12 @@
  *
  */
 
-// get the client ID and secret via app settings
+// get the client ID and secret from app settings
 
-$clientAppID = OC_Appconfig::getValue('user_orcid', 'clientAppID');
+$clientAppID  = OC_Appconfig::getValue('user_orcid', 'clientAppID');
 $clientSecret = OC_Appconfig::getValue('user_orcid', 'clientSecret');
 
-OCP\JSON::success(array('clientAppID' => $clientAppID, 'clientSecret' => $clientSecret));
-
+OCP\JSON::success(array(
+                'clientAppID' => $clientAppID,
+                'clientSecret' => $clientSecret
+));
