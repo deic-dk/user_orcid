@@ -1,58 +1,115 @@
-$(document).ready(function() {
-	authURLprefix = "https://sandbox.orcid.org/oauth/authorize";
-	exchURLprefix = "https://pub.sandbox.orcid.org/oauth/token";
-	useURLprefix = "http://pub.sandbox.orcid.org/v1.2";
-	redirectURL = "https://developers.google.com/oauthplayground";
-	clientAppID = "";
-	clientSecret = "";
+var oauthWindow;
+var clientAppID;
+var clientSecret;
+var redirectUrl;
 
-	// if stored, get our ORCID from database and put it in the text field
+function getClient(){
+	$.ajax(OC.linkTo('user_orcid', 'ajax/get_client.php'), {
+		type: "GET",
+		dataType: 'json',
+		success: function(s) {
+			clientAppID = s['clientAppID'];
+			clientSecret = s['clientSecret'];
+			redirectUrl = s['redirectURL'];
+		}
+	});
+}
+
+function openORCID() {
+    var oauthWindow = window.open("https://orcid.org/oauth/authorize?"+
+    		"client_id="+clientAppID+"&response_type=code&scope=/authenticate&"+
+    		"redirect_uri="+redirectUrl, "_blank", 
+    		"toolbar=no, scrollbars=yes, width=620, height=600, top=500, left=500");
+}
+
+function getOrcid(){
 	$.ajax(OC.linkTo('user_orcid', 'ajax/get_orcid.php'), {
 		type: "GET",
 		dataType: 'json',
 		success: function(s) {
 			orcid = s['orcid'];
-			document.getElementById('idtextfield').value = orcid;
-			if (orcid != null) {
-				document.getElementById('orcidstatus').style.color = "green";
-				document.getElementById('orcidstatus').innerHTML = "<a href='https://orcid.org/" + s['orcid'] + "' target='_blank'> Go to web entry for this ORCID.</a>";
+			if (orcid) {
+
 			}
 		}
 	});
+}
 
-	// catch clicks on our Confirm ORCID button
-	$('#idsubmit').click(function() {
+function setOrcid(orcid){
+	$.ajax(OC.linkTo('user_orcid', 'ajax/set_orcid.php'), {
+    type: "POST",
+    data: {
+        orcid: orcid
+    },
+    dataType: 'json',
+    success: function(s) {
+    	
+    }
+	});
+}
 
-		$.ajax(OC.linkTo('user_orcid', 'ajax/get_client.php'), {
-			type: "GET",
-			dataType: 'json',
-			success: function(s) {
-				clientAppID = s['clientAppID'];
-				clientSecret = s['clientSecret'];
 
-			}
+$(document).ready(function() {
+
+	getClient();
+	
+	if($('a.orcid').text()=="http://orcid.org/"){
+		$('a.orcid').hide();
+	}
+	
+	$('#connect-orcid-button').click(function(ev){
+		openORCID();
+	});
+	
+	$("#orcid-info").click(function (ev) {
+		
+		var html = "<div><h2>About ORCID <img class='orcid_img' src='"+OC.webroot+"/apps/user_orcid/img/orcid.png'></h2>\
+				<a class='oc-dialog-close close svg'></a>\
+				<div class='about-orcid'></div></div>";
+		
+		$(html).dialog({
+			  dialogClass: "oc-dialog-orcid",
+			  resizeable: true,
+			  draggable: true,
+			  modal: false,
+			  height: 320,
+			  width: 420,
+				buttons: [{
+					"id": "orcidinfo",
+					"text": "OK",
+					"click": function() {
+						$( this ).dialog( "close" );
+					}
+				}]
+			});
+
+		$('body').append('<div class="modalOverlay"></div>');
+
+		$('.oc-dialog-close').live('click', function() {
+			$(".oc-dialog-orcid").remove();
+			$('.modalOverlay').remove();
 		});
 
-		authURL = authURLprefix + "?client_id=" + clientAppID + "&response_type=code&scope=/authenticate&redirect_uri=" + redirectURL;
+		$('.ui-helper-clearfix').css("display", "none");
 
-		window.open(authURL, "_blank");
-
-		// store our received values in database for future use, needs addition of name
-		/*$.ajax(OC.linkTo('user_orcid', 'ajax/set_orcid.php'), {
-		    type: "POST",
-		    data: {
-		        orcid: orcid
-		    },
-		    dataType: 'json',
-		    success: function(s) {
-		        document.getElementById('orcidstatus').style.color = "green";
-		        document.getElementById('orcidstatus').innerHTML = "Validated and stored. <a href='https://orcid.org/" + orcid + "' target='_blank'> Go to web entry for this ORCID.</a>";
-		    }
-		});*/
-
-
+		$.ajax(OC.linkTo('user_orcid', 'ajax/about_orcid.php'), {
+			type: 'GET',
+			success: function(jsondata){
+				if(jsondata) {
+					$('.about-orcid').html(jsondata.data.page);
+				}
+			},
+			error: function(data) {
+				alert("Unexpected error!");
+			}
+		});
+	}); 
+	
+	$(document).click(function(e){
+		if (!$(e.target).parents().filter('.oc-dialog-orcid').length && !$(e.target).filter('#orcid-info').length ) {
+			$(".oc-dialog-orcid").remove();
+			$('.modalOverlay').remove();
+		}
 	});
-
-
 
 });

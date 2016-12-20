@@ -1,6 +1,19 @@
 <fieldset id="orcidPersonalSettings" class="section">
-<h2><img src="/apps/user_orcid/img/orcid.png"> ORCID - Personal</h2>
- <input type='text' name='inputorcid' id='idtextfield' original-title='' title='Shows the ORCID identifier associated with this account.' readonly><input type='text' name='inputorcid' id='nametextfield' original-title='' title='Shows the ORCID name associated with this account.' readonly><br>
- <input type='submit' value='Confirm ORCID' original-title='' id='idsubmit' title='Login, validate, and store ORCID'> <div id='orcidstatus' style="font-size: .8em;"></div>
+	<a id="orcid-info">What's this?</a>
+	<h2><!--<img src="/apps/user_orcid/img/orcid.png">-->ORCID</h2>
+	<br />
+	<div>
+	<!--<a href="http://orcid.org">
+	<img alt="ORCID logo" src="http://orcid.org/sites/default/files/images/orcid_16x16.png" 
+	width="16" height="16" /></a>-->
+	<span>My ORCID:</span>
+	<a class="orcid" href="http://orcid.org/<?php echo $_['orcid'];?>">http://orcid.org/<?php echo $_['orcid'];?></a>
+	</div>
+	<br />
+	<div>
+	<button id="connect-orcid-button">
+	<img id="orcid-id-logo" src="http://orcid.org/sites/default/files/images/orcid_24x24.png" 
+	width='24' height='24' alt="ORCID logo"/>Create or Connect your ORCID iD</button>
+	</div>
 </fieldset>
 

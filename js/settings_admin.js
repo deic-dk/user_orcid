@@ -15,8 +15,8 @@ $(document).ready(function() {
 	// catch clicks on our 'Store OAuth' values button
 	$('#clientsubmit').click(function() {
 		// get the values from textfield and throw them into app settings
-		inputclientappid = document.getElementById('inputclientappid').value;
-		inputclientsecret = document.getElementById('inputclientsecret').value;
+		inputclientappid = $('#inputclientappid').val();
+		inputclientsecret = $('#inputclientsecret').val();
 
 		$.ajax(OC.linkTo('user_orcid', 'ajax/set_client.php'), {
 			type: "POST",
