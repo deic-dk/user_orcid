@@ -12,7 +12,7 @@
 
 <div class='orcid-popup'>
 	<h3>
-		Thank you for connecting your ORCID <img class="orcid_img" src="/apps/user_orcid/img/orcid.png" />
+		Thank you for connecting your ORCID <img class="orcid_img" src="<?php echo OC::$WEBROOT;?>/apps/user_orcid/img/orcid.png" />
 	</h3>
 </div>
 

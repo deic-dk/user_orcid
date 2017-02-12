@@ -39,7 +39,7 @@ $json_response = curl_exec($curl);
 $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 curl_close($curl);
 if($status===0 || $status>=300 || $json_response===null || $json_response===false){
-	\OCP\Util::writeLog('files_sharding', 'ERROR: bad ws response. '.$json_response, \OC_Log::ERROR);
+	\OCP\Util::writeLog('user_orcid', 'ERROR: bad ws response. '.$json_response, \OC_Log::ERROR);
 	OCP\JSON::error();
 }
 else{
@@ -48,12 +48,48 @@ else{
 
 \OCP\Util::writeLog('user_orcid','Got token: '.serialize($response), \OC_Log::WARN);
 
+function getUserFromORCID($orcid) {
+	$result = array();
+	$sql = "SELECT * FROM *PREFIX*preferences WHERE appid = ? AND configkey = ? AND configvalue = ?";
+	$args = array('user_orcid', 'orcid', $orcid);
+	$query = \OCP\DB::prepare($sql);
+	$result = $query->execute($args);
+	$results = $result->fetchAll();
+	if(count($results)>1){
+		\OCP\Util::writeLog('user_orcid', 'ERROR: Duplicate entries found for ORCID '.$orcid, \OCP\Util::ERROR);
+		return false;
+	}
+	return $results[0]['userid'];
+}
+
 if(!empty($response) && !empty($response['orcid'])){
-	\OCP\Config::setUserValue($user, 'user_orcid', 'orcid', $response['orcid']);
-	\OCP\Config::setUserValue($user, 'user_orcid', 'access_token', $response['access_token']);
-	$tmpl = new OCP\Template("user_orcid", "thanks");
-	echo $tmpl->fetchPage();
+	if(!\OC_User::isLoggedIn()){
+		$user = getUserFromORCID($response['orcid']);
+		if(!empty($user)){
+			// Successful login
+			\OC_Util::teardownFS();
+			//\OC\Files\Filesystem::initMountPoints($owner);
+			\OC_User::setUserId($user);
+			\OC_Util::setupFS($user);
+			\OCP\Util::writeLog('user_orcid', 'Logged in user: '.$user.', user: '.\OCP\USER::getUser(), \OC_Log::WARN);
+		}
+		OC_Util::redirectToDefaultPage();
+	}
+	else{
+		// ORCID setting
+		\OCP\Config::setUserValue($user, 'user_orcid', 'orcid', $response['orcid']);
+		\OCP\Config::setUserValue($user, 'user_orcid', 'access_token', $response['access_token']);
+		$tmpl = new OCP\Template("user_orcid", "thanks");
+		echo $tmpl->fetchPage();
+	}
 }
 else{
-	OCP\JSON::error();
+	if(!\OC_User::isLoggedIn()){
+		// Failed login attempt
+		OC_Util::redirectToDefaultPage();
+	}
+	else{
+		// Failed ORCID setting
+		OCP\JSON::error();
+	}
 }
