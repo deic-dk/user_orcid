@@ -20,6 +20,9 @@ function openORCID() {
     		"client_id="+clientAppID+"&response_type=code&scope=/authenticate&"+
     		"redirect_uri="+redirectUrl, "_blank", 
     		"toolbar=no, scrollbars=yes, width=620, height=600, top=500, left=500");
+    oauthWindow.onbeforeunload = function(){
+    	location.reload();
+    }
 }
 
 function getOrcid(){

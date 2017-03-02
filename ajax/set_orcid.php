@@ -1,8 +1,11 @@
 <?php
 
 $orcid = $_POST['orcid'];
+$user = OCP\USER::getUser();
 
-\OCP\Config::setUserValue(\OC::$server->getUserSession()->getUser()->getUID(),
-		'user_orcid', 'orcid', $orcid);
-
-OCP\JSON::success();
+if(OCA\FilesOrcid\Lib::setOrcid($user, $orcid)){
+	OCP\JSON::success();
+}
+else{
+	OCP\JSON::error();
+}
