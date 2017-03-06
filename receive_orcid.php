@@ -100,9 +100,9 @@ else{
 //////////////////////////
 
 function failedLogin(){
-	$location = OC_Util::getDefaultPageUrl();
-	$location = $location.'?message=Login with ORCID failed. '.
-			'Notice: You must first log in via institution, then attach your ORCID ID in your settings.';
-	header('Location: '.$location);
+	$location = empty(OC::$WEBROOT)?'/':OC::$WEBROOT;
+	$message = "Login with ORCID failed. ".
+			"Notice: You must first log in via institution, then attach your ORCID ID in your settings.";
+	header('Location: '.$location."?message=".urlencode($message));
 	exit();
 }
