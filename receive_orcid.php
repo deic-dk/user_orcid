@@ -49,19 +49,23 @@ if(!empty($response) && !empty($response['orcid'])){
 		$user = OCA\FilesOrcid\Lib::getUserFromOrcid($response['orcid']);
 		if(!empty($user)){
 			// Successful login
-			if(OCP\App::isEnabled('files_sharding')){
+			if(OCP\App::isEnabled('files_sharding') && \OCA\FilesSharding\Lib::isMaster()){
 				$userServer = OCA\FilesSharding\Lib::getServerForUser($user);
 				if(!empty($userServer)){
 					$parsedRedirect = parse_url($userServer);
 					if($_SERVER['HTTP_HOST']!==$parsedRedirect['host']){
 						$redirect = $userServer;
+						$orcidClientAppID  = OC_Appconfig::getValue('user_orcid', 'clientAppID');
 					}
 				}
 			}
 			if(!empty($redirect)){
-				// Redirect
-				$uri = preg_replace('|^'.OC::$WEBROOT.'|', '', $_SERVER['REQUEST_URI']);
-				header('Location: https://'.rtrim($redirect, '/').'/'.ltrim($uri, '/'));
+				\OC_User::setUserId($user);
+				// Redirect (and relogin on slave)
+				$url = "https://orcid.org/oauth/authorize?client_id=".
+				$orcidClientAppID."&response_type=code&scope=/authenticate&redirect_uri=".
+				rtrim($userServer, '/')."/apps/user_orcid/receive_orcid.php";
+				header('Location: '.$url);
 				exit();
 			}
 			else{
@@ -80,7 +84,7 @@ if(!empty($response) && !empty($response['orcid'])){
 	}
 	else{
 		// ORCID setting
-		\OCP\Config::setUserValue($user, 'user_orcid', 'orcid', $response['orcid']);
+		OCA\FilesOrcid\Lib::setOrcid($user, $response['orcid']);
 		//\OCP\Config::setUserValue($user, 'user_orcid', 'access_token', $response['access_token']);
 		$tmpl = new OCP\Template("user_orcid", "thanks");
 		echo $tmpl->fetchPage();

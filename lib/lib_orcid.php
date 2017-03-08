@@ -23,7 +23,7 @@ class Lib {
 	public static function getUserFromOrcid($orcid) {
 		if(\OCP\App::isEnabled('files_sharding') && !\OCA\FilesSharding\Lib::isMaster()){
 			$ret = \OCA\FilesSharding\Lib::ws('get_user_from_orcid', array('orcid'=>$orcid),
-					false, true, null, 'user_orcid');
+					true, true, null, 'user_orcid');
 			return $ret;
 		}
 		else{
@@ -36,7 +36,7 @@ class Lib {
 	}
 	
 	public static function getOrcid($user) {
-		if(OCP\App::isEnabled('files_sharding') && !\OCA\FilesSharding\Lib::isMaster()){
+		if(\OCP\App::isEnabled('files_sharding') && !\OCA\FilesSharding\Lib::isMaster()){
 			$ret = \OCA\FilesSharding\Lib::ws('get_orcid', array('user'=>$user),
 					true, true, null, 'user_orcid');
 			return $ret;
@@ -51,8 +51,8 @@ class Lib {
 	}
 	
 	public static function setOrcid($user, $orcid) {
-		if(OCP\App::isEnabled('files_sharding') && !\OCA\FilesSharding\Lib::isMaster()){
-			$ret = \OCA\FilesSharding\Lib::ws('get_orcid', array('user'=>$user, 'orcid'=>$orcid),
+		if(\OCP\App::isEnabled('files_sharding') && !\OCA\FilesSharding\Lib::isMaster()){
+			$ret = \OCA\FilesSharding\Lib::ws('set_orcid', array('user'=>$user, 'orcid'=>$orcid),
 					true, true, null, 'user_orcid');
 			return $ret;
 		}
