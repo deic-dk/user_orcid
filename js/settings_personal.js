@@ -25,30 +25,32 @@ function openORCID() {
     }
 }
 
-function getOrcid(){
+function getOrcid(callback){
 	$.ajax(OC.linkTo('user_orcid', 'ajax/get_orcid.php'), {
 		type: "GET",
 		dataType: 'json',
 		success: function(s) {
-			orcid = s['orcid'];
-			if (orcid) {
-
+			if(typeof s['orcid'] !== 'undefined'){
+				orcid = s['orcid'];
 			}
+			else{
+				orcid = '';
+			}
+			callback(orcid);
 		}
 	});
 }
 
 function setOrcid(orcid){
-	$.ajax(OC.linkTo('user_orcid', 'ajax/set_orcid.php'), {
+ $.ajax(OC.linkTo('user_orcid', 'ajax/set_orcid.php'), {
     type: "POST",
     data: {
         orcid: orcid
     },
     dataType: 'json',
     success: function(s) {
-    	
     }
-	});
+ });
 }
 
 
