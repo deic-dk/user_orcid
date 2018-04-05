@@ -68,7 +68,7 @@ $(document).ready(function() {
 	
 	$("#orcid-info").click(function (ev) {
 		
-		var html = "<div><h2>About ORCID <img class='orcid_img' src='"+OC.webroot+"/apps/user_orcid/img/orcid.png'></h2>\
+		var html = "<div><h2>"+t("user_orcid", "About ORCID")+" <img class='orcid_img' src='"+OC.webroot+"/apps/user_orcid/img/orcid.png'></h2>\
 				<a class='oc-dialog-close close svg'></a>\
 				<div class='about-orcid'></div></div>";
 		
