@@ -2,7 +2,7 @@
 
 require_once('user_orcid/lib/lib_orcid.php');
 
-$user = $_POST['user'];
+$user = empty($_POST['user'])?\OCP\USER::getUser():$_POST['user'];
 
 $orcid = OCA\FilesOrcid\Lib::getOrcid($user);
 
