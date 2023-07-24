@@ -10,7 +10,7 @@ if(!OCA\FilesSharding\Lib::checkIP()){
 
 require_once('user_orcid/lib/lib_orcid.php');
 
-$orcid = isset($_POST['orcid'])?$_POST['orcid']:'';
+$orcid = isset($_REQUEST['orcid'])?$_REQUEST['orcid']:'';
 
 $user = OCA\FilesOrcid\Lib::dbGetUserFromOrcid($orcid);
 
