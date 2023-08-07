@@ -22,6 +22,6 @@ $orcid = isset($_REQUEST['orcid'])?$_REQUEST['orcid']:'';
 
 $lookedUpUser = OCA\FilesOrcid\Lib::dbGetUserFromOrcid($orcid);
 
-\OCP\Util::writeLog('user_group_admin', 'Returning user '.$lookedUpUser, \OC_Log::WARN);
+\OCP\Util::writeLog('user_orcid', 'Returning user '.$lookedUpUser, \OC_Log::WARN);
 
 OCP\JSON::encodedPrint($lookedUpUser);
