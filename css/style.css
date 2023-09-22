@@ -1,4 +1,4 @@
-#connect-orcid-button{
+#set_orcid{
 	border: 1px solid #D3D3D3;
 	padding: .3em;
 	background-color: #fff;
@@ -12,7 +12,7 @@
 	vertical-align: middle;
 }
 
-#connect-orcid-button:hover{
+#set_orcid:hover{
 	border: 1px solid #338caf;
 	color: #338caf;
 }
@@ -31,14 +31,15 @@
 }
 
 .about-orcid {
-	overflow-y: hidden;
+	overflow: hidden;
 }
 
 .orcid-popup {
 	margin-left: 16px;
 	font-family: inherit;
-	font-size: 85%;
-	overflow-y: hidden;
+	font-size: 13px;
+	overflow: hidden;
+	white-space: normal;
 }
 .orcid-popup h1 {
 	font-size: 140%;
@@ -58,3 +59,18 @@
 	vertical-align: top;
 	margin-top: -2px;
 }
+
+#unset_orcid {
+	vertical-align: baseline;
+}
+
+#unset_orcid .icon-trash {
+	bottom: 0.4px;
+	position: relative;
+}
+
+#orcid_msg {
+	margin-top: 12px;
+}
+
+

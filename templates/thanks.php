@@ -17,7 +17,11 @@
 </div>
 
 <script>
+function refreshParent() {
+	window.opener.location.reload();
+}
+window.onunload = refreshParent;
 setTimeout(function(){
-    window.close();
-}, 2000);
+	window.close();
+}, 3000);
 </script>

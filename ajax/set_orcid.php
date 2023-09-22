@@ -1,5 +1,7 @@
 <?php
 
+require_once('user_orcid/lib/lib_orcid.php');
+
 $orcid = $_POST['orcid'];
 $user = OCP\USER::getUser();
 
