@@ -13,6 +13,7 @@ if(empty($user)){
 }
 if(empty($user) || $user!=$allowedQueryUser){
 	if(!OCA\FilesSharding\Lib::checkIP()){
+		\OCP\Util::writeLog('user_orcid', 'User '.$user.'/'.$_SERVER['PHP_AUTH_USER'].' not allowed from '.$_SERVER['REMOTE_ADDR'], \OC_Log::WARN);
 		http_response_code(401);
 		exit;
 	}
