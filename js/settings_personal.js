@@ -16,7 +16,7 @@ function getClient(){
 }
 
 function openORCID() {
-	var oauthWindow = window.open("https://orcid.org/oauth/authorize?"+
+	oauthWindow = window.open("https://orcid.org/oauth/authorize?"+
 		"client_id="+clientAppID+"&response_type=code&scope=/authenticate&"+
 		"redirect_uri="+redirectUrl, "_blank", 
 		"toolbar=no, scrollbars=yes, width=620, height=600, top=500, left=500");
